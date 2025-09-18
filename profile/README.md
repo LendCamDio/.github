@@ -377,11 +377,3 @@ public class UsersController : ControllerBase
   }
 }
 ```
-
-```
-
----
-
-👉 Mình đã convert xong sang **Markdown thuần** rồi, giữ nguyên cấu trúc + code block luôn.  
-Cậu có muốn mình thêm **Table of Contents (TOC)** auto trong Markdown (kiểu `[toc]`) không, hay để gọn như này thôi?
-```
