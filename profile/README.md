@@ -1,11 +1,8 @@
-:toc:
-:toclevels: 3
+# 🖥️ Frontend (React + TypeScript)
 
-== 🖥️ Frontend (React + TypeScript)
+## 1. Cấu trúc dự án
 
-=== 1. Cấu trúc dự án
-[source,txt]
-----
+```txt
 src/
  ├── components/        # UI components (Button, Card, Modal, ...)
  │    └── Button.tsx
@@ -45,79 +42,82 @@ src/
  │
  ├── App.tsx
  └── main.tsx
-----
+````
 
-=== 2. Quy tắc đặt tên
+## 2. Quy tắc đặt tên
+
 * **Component:** PascalCase
-+
-[source,typescript]
-----
-function UserProfile() { ... }
-----
-* **File:** trùng tên component, PascalCase  
-`UserProfile.tsx`
 
-* **Hooks:** bắt đầu bằng `use`  
-`useAuth.ts, useFetch.ts`
+```typescript
+function UserProfile() { ... }
+```
+
+* **File:** trùng tên component, PascalCase
+  `UserProfile.tsx`
+
+* **Hooks:** bắt đầu bằng `use`
+  `useAuth.ts, useFetch.ts`
 
 * **Biến & hàm:** camelCase
-+
-[source,typescript]
-----
+
+```typescript
 const userName: string = "Doc";
 function getUserProfile(): Promise<IUser> {}
-----
+```
+
 * **Interface & Type:** PascalCase, prefix `I` với interface
-+
-[source,typescript]
-----
+
+```typescript
 interface IUser {
    id: number;
    name: string;
 }
-----
-* **Route path:** lowercase, nhiều từ thì gạch ngang  
-`/user-profile`, `/course-detail/:id`
+```
 
-=== 3. Code Style
+* **Route path:** lowercase, nhiều từ thì gạch ngang
+  `/user-profile`, `/course-detail/:id`
+
+## 3. Code Style
+
 * Dùng **ES6+ + TypeScript features** (arrow function, async/await, destructuring, generics).
 * Luôn dùng **functional component + React Hooks**, tránh class component.
 * State đặt ngắn gọn, rõ nghĩa
-+
-[source,typescript]
-----
+
+```typescript
 const [user, setUser] = useState<IUser | null>(null);
-----
+```
+
 * Destructuring props kèm type:
-+
-[source,typescript]
-----
+
+```typescript
 type UserCardProps = { name: string; age: number };
 
 function UserCard({ name, age }: UserCardProps) {
   return <div>{name} - {age}</div>;
 }
-----
+```
 
-=== 4. UI & Logic
+## 4. UI & Logic
+
 * **Tách biệt logic và UI**
-** Logic → hooks/services
-** UI → component
 
-*Ví dụ logic (service gọi API):*
-[source,typescript]
-----
+  * Logic → hooks/services
+  * UI → component
+
+**Ví dụ logic (service gọi API):**
+
+```typescript
 import { IUser } from "../models/user.model";
 
 export async function getUsers(): Promise<IUser[]> {
   const res = await fetch("/api/users");
   return res.json();
 }
-----
+```
 
-*Ví dụ UI component:*
-[source,tsx]
-----
+**Ví dụ UI component:**
+
+```tsx
 import { getUsers } from "../services/user.service";
 
 export function UserList() {
@@ -133,22 +133,21 @@ export function UserList() {
     </ul>
   );
 }
-----
+```
 
 * Luôn kiểm tra null/undefined trước khi render:
-+
-[source,tsx]
-----
+
+```tsx
 {user && <UserCard name={user.name} age={20} />}
-----
+```
 
 ---
 
-== 📌 Chuẩn viết code RESTful API cho C#
+# 📌 Chuẩn viết code RESTful API cho C\#
 
-=== 1. Cấu trúc dự án
-[source,txt]
-----
+## 1. Cấu trúc dự án
+
+```txt
 src/
  ├── Presentation/       # Xử lý request, response
  ├── BLL/                # Xử lý logic, gọi DB
@@ -159,36 +158,33 @@ src/
  │     └── DTOs/
  │     └── auth/
  │     └── …
-----
+```
 
-=== 1. Quy tắc đặt tên endpoint
+## 2. Quy tắc đặt tên endpoint
 
-* Dùng *danh từ số nhiều* (plural nouns).
-* *Không* nhúng hành động trong URL (`/api/users/create` ❌).
-* Action được quyết định bằng *HTTP verb*.
+* Dùng **danh từ số nhiều** (plural nouns).
+* **Không** nhúng hành động trong URL (`/api/users/create` ❌).
+* Action được quyết định bằng **HTTP verb**.
 
 Ví dụ cho resource `User`:
 
-[cols="1,2,3", options="header"]
-|===
-| HTTP Verb | Endpoint | Mô tả
-| GET       | /api/users       | Lấy danh sách user
-| GET       | /api/users/{id}  | Lấy chi tiết user theo id
-| POST      | /api/users       | Tạo user mới
-| PUT       | /api/users/{id}  | Cập nhật toàn bộ user
-| PATCH     | /api/users/{id}  | Cập nhật một phần user
-| DELETE    | /api/users/{id}  | Xóa user
-|===
+| HTTP Verb | Endpoint        | Mô tả                     |
+| --------- | --------------- | ------------------------- |
+| GET       | /api/users      | Lấy danh sách user        |
+| GET       | /api/users/{id} | Lấy chi tiết user theo id |
+| POST      | /api/users      | Tạo user mới              |
+| PUT       | /api/users/{id} | Cập nhật toàn bộ user     |
+| PATCH     | /api/users/{id} | Cập nhật một phần user    |
+| DELETE    | /api/users/{id} | Xóa user                  |
 
 👉 Nếu có sub-resource:
 
-[source,bash]
-----
+```bash
 GET /api/users/1/posts        # Lấy tất cả bài post của user 1
 GET /api/users/1/posts/99     # Lấy chi tiết post 99 của user 1
-----
+```
 
-=== 3. Quy tắc đặt tên Controller
+## 3. Quy tắc đặt tên Controller
 
 * PascalCase + suffix `Controller`.
 * Tên controller khớp với resource.
@@ -196,8 +192,7 @@ GET /api/users/1/posts/99     # Lấy chi tiết post 99 của user 1
 
 Ví dụ:
 
-[source,csharp]
-----
+```csharp
 [ApiController]
 [Route("api/users")]
 public class UsersController : ControllerBase
@@ -222,18 +217,17 @@ public class UsersController : ControllerBase
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteUser(int id) { ... }
 }
-----
+```
 
-=== 4. Quy tắc DTO & Model
+## 4. Quy tắc DTO & Model
 
-* *Entity (DB model):* PascalCase, số ít → `User`.
-* *DTO:* PascalCase + suffix `Dto` → `CreateUserDto`, `UpdateUserDto`.
-* *Interface:* PascalCase, prefix `I` → `IUserService`.
+* **Entity (DB model):** PascalCase, số ít → `User`.
+* **DTO:** PascalCase + suffix `Dto` → `CreateUserDto`, `UpdateUserDto`.
+* **Interface:** PascalCase, prefix `I` → `IUserService`.
 
 Ví dụ:
 
-[source,csharp]
-----
+```csharp
 public class CreateUserDto
 {
     public string Name { get; set; } = string.Empty;
@@ -245,19 +239,18 @@ public class UpdateUserDto
     public string? Name { get; set; }
     public string? Email { get; set; }
 }
-----
+```
 
-=== 5. Error Handling & Validation
+## 5. Error Handling & Validation
 
-* Dùng *ModelState* để validate input.
+* Dùng **ModelState** để validate input.
 * Trả về mã lỗi chuẩn: `400 BadRequest`, `401 Unauthorized`, `404 NotFound`, `500 InternalServerError`.
 * Middleware global để handle exception.
 * Tạo 1 class chung để phân loại các request.
 
 Ví dụ Validation:
 
-[source,csharp]
-----
+```csharp
 [HttpPost]
 public async Task<IActionResult> CreateUser([FromBody] CreateUserDto dto)
 {
@@ -272,17 +265,16 @@ public async Task<IActionResult> CreateUser([FromBody] CreateUserDto dto)
     var user = await _userService.CreateUserAsync(dto);
     return Ok(new { success = true, data = user });
 }
-----
+```
 
-=== 6. Code Style
+## 6. Code Style
 
-* Dùng `async/await` cho tất cả API call tới DB
-* Controller chỉ xử lý request/response, logic chính đặt trong Service
-* Request validation bằng **FluentValidation** hoặc **DataAnnotation**
-* Error handling qua **Middleware chung**
-+
-[source,csharp]
-----
+* Dùng `async/await` cho tất cả API call tới DB.
+* Controller chỉ xử lý request/response, logic chính đặt trong Service.
+* Request validation bằng **FluentValidation** hoặc **DataAnnotation**.
+* Error handling qua **Middleware chung**.
+
+```csharp
 [ApiController]
 [Route("api/users")]
 public class UsersController : ControllerBase
@@ -308,22 +300,24 @@ public class UsersController : ControllerBase
         return Ok(new { success = true, data = user });
     }
 }
-----
+```
 
-=== 7. Quy tắc khác
+## 7. Quy tắc khác
 
 * Tên phương thức trong Controller: PascalCase (`GetUserById`).
 * Không viết logic trong Controller → tách sang `Service`.
 * Sử dụng *async/await* cho tất cả thao tác DB/IO.
 * Swagger/OpenAPI để mô tả API.
-* Thêm Service Register để không cần khai báo nhiều trong program.cs
+* Thêm Service Register để không cần khai báo nhiều trong `program.cs`.
 * Mỗi Service/Repo cần 1 Interface riêng.
 
-== 📦 Chuẩn JSON trả về (API Response)
+---
 
-=== 1. Thành công
-[source,json]
-----
+# 📦 Chuẩn JSON trả về (API Response)
+
+## 1. Thành công
+
+```json
 {
   "success": true,
   "data": {
@@ -331,11 +325,11 @@ public class UsersController : ControllerBase
     "name": "Nguyen Van A"
   }
 }
-----
+```
 
-=== 2. Lỗi
-[source,json]
-----
+## 2. Lỗi
+
+```json
 {
   "success": false,
   "error": {
@@ -343,11 +337,11 @@ public class UsersController : ControllerBase
     "message": "User not found"
   }
 }
-----
+```
 
-=== 3. Danh sách (có phân trang)
-[source,json]
-----
+## 3. Danh sách (có phân trang)
+
+```json
 {
   "success": true,
   "data": [
@@ -360,4 +354,4 @@ public class UsersController : ControllerBase
     "total": 52
   }
 }
-----
+```
